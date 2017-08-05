@@ -5,6 +5,7 @@
 
   function isElement(obj) {
     return obj instanceof HTMLElement || obj instanceof SVGElement;
+    //return true;
   }
 
   function requireDomNode(el) {

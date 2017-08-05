@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600' rel='stylesheet'
+          type='text/css'/>
+    <link rel=stylesheet href=bootstrap.min.css/>
+    <style>
+        li {
+            color: #369;
+        }
+
+        /*svg {*/
+            /*fill: #ff00ff;*/
+        /*}*/
+
+        embed svg {
+            fill: #ffff00;
+        }
+        #svg1{
+
+        }
+        #svgDiv{
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ff0000;
+        }
+    </style>
+    <script src=https://code.jquery.com/jquery-latest.js></script>
+    <script src=saveSvgAsPng.js></script>
+</head>
+<body>
+<div>
+    <li>
+
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  id=svg1 >
+
+        </svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_2" x="0px" y="0px"
+	 width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
+<path d="M18.994,26.501h-4.303v-7.125h4.303V26.501z M24.432,19.376h-4.303v4.613h4.303V19.376z M38.688,27.698v2h-0.959v1.25
+	h-3.621c-0.233,1.196-1.287,2.104-2.553,2.104s-2.32-0.905-2.555-2.104h-7.703c-0.234,1.196-1.288,2.104-2.553,2.104
+	c-1.266,0-2.318-0.905-2.553-2.104h-4.156v-1.25h-0.723v-2h0.723v-10.75h25.693v10.75H38.688z M20.348,30.448
+	c0-0.884-0.72-1.604-1.604-1.604c-0.885,0-1.604,0.721-1.604,1.604s0.719,1.604,1.604,1.604
+	C19.628,32.052,20.348,31.332,20.348,30.448z M33.158,30.448c0-0.884-0.721-1.604-1.604-1.604c-0.887,0-1.605,0.721-1.605,1.604
+	s0.72,1.604,1.605,1.604C32.438,32.052,33.158,31.332,33.158,30.448z M36.729,17.948H13.035v12h3.156
+	c0.233-1.197,1.287-2.104,2.553-2.104c1.265,0,2.318,0.906,2.553,2.104H29c0.234-1.197,1.289-2.104,2.555-2.104
+	s2.318,0.906,2.553,2.104h2.621V17.948z M29.871,19.376h-4.305v4.613h4.305V19.376z M35.309,19.376h-4.305v4.613h4.305V19.376z"/>
+        </svg>
+
+        <embed id="id1" pluginspage="http://www.adobe.com/svg/viewer/install/" src="bus.svg" height="100px"
+               width="100px" type="image/svg+xml">
+
+    </li>
+    <div id="newSVG"></div>
+
+    <input type="button" id="test" value="test"/>
+    <input type="button" id="test1" value="test1"/>
+    <input type="button" id="test2" value="test2"/>
+
+</div>
+<script>
+    function colorRGB2Hex(color) {
+        var rgb = color.split(',');
+        var r = parseInt(rgb[0].split('(')[1]);
+        var g = parseInt(rgb[1]);
+        var b = parseInt(rgb[2].split(')')[0]);
+
+        var hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        return hex;
+    }
+    $('#test').click(function () {
+        $('#id1')[0].getSVGDocument().getElementById("Layer_1").style.fill='#00ff00'
+        var svgChageColor=$('#id1')[0].getSVGDocument().getElementById("Layer_1")
+        for(var i in svgChageColor.attributes){
+            var obj = svgChageColor.attributes[i];
+            var key = obj.name;
+            var value = obj.value;
+            if (key=='xmlns'||key=='xmlns:xlink'||key=='id'||typeof(svgChageColor.attributes[i])=='function') continue;
+            console.log(svgChageColor.attributes[i]);
+//            $('#svg1')[0].setAttributeNS('http://www.w3.org/1999/xlink', key, value)
+            $('#svg1')[0].setAttribute(key, value)
+        }
+        for(var j in svgChageColor.childNodes){
+            var svgTag=svgChageColor.childNodes[j];
+            if(!svgTag.tagName) continue;
+            var svgAddElement=document.createElementNS("http://www.w3.org/2000/svg",svgTag.tagName)
+            for(var m in svgTag.attributes){
+                var key=svgTag.attributes[m].name;
+                var value=svgTag.attributes[m].value;
+                svgAddElement.setAttribute(key,value);
+            }
+            $('#svg1')[0].appendChild(svgAddElement);
+        }
+        $('#newSVG').append(svgChageColor);
+//        document.getElementById('newSVG').appendChild(document.getElementById('id1').getSVGDocument().getElementById("Layer_1"))
+
+        svgAsPngUri($('#svg1')[0], '', function (uri) {//uri是base64编码后的图片数据
+            console.log(uri)
+        });
+//        svgAsPngUri($('#Layer_1')[0], '', function(uri) {//uri是base64编码后的图片数据
+//            console.log(uri)
+//        });
+    })
+    $('#test1').click(function () {
+        $('#svg1')[0].style.fill='#00ff00';
+        $('#svg1')[0].setAttribute('height', 200)
+        $('#svg1')[0].setAttribute('width', 200)
+//        $('#id1')[0].getSVGDocument().getElementById("Layer_1").style.fill='#00ff00'
+//        $('#newSVG').append($('#id1')[0].getSVGDocument().getElementById("Layer_1"))
+//        svgAsPngUri($('#newSVG').find('svg')[0], '', function(uri) {//uri是base64编码后的图片数据
+//            console.log(uri)
+//        });
+//        svgAsPngUri($('#Layer_1')[0], '', function (uri) {//uri是base64编码后的图片数据
+        svgAsPngUri($('#svg1')[0], '', function (uri) {//uri是base64编码后的图片数据
+            console.log(uri)
+
+
+
+        });
+    })
+    $('#test2').click(function () {
+//        $('#id1')[0].getSVGDocument().getElementById("Layer_1").style.fill='#00ff00'
+//        $('#newSVG').append($('#id1')[0].getSVGDocument().getElementById("Layer_1"))
+//        svgAsPngUri($('#newSVG').find('svg')[0], '', function(uri) {//uri是base64编码后的图片数据
+//            console.log(uri)
+//        });
+//        svgAsPngUri($('#Layer_2')[0], '', function (uri) {//uri是base64编码后的图片数据
+        svgAsPngUri(document.getElementById('Layer_2'), '', function (uri) {//uri是base64编码后的图片数据
+            console.log(uri)
+        });
+    })
+
+</script>
+
+</body>
+</html>

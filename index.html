@@ -35,7 +35,7 @@
   }
 
   svg, img {
-    border: 1px solid lightgray;
+    /*border: 1px solid lightgray;*/
   }
 
   textarea {
@@ -156,7 +156,7 @@
 
     <li id=embedded-svg>
       <svg width=200 height=200>
-        <image xlink:href=test.svg x=50 y=50 width=100 height=100></image>
+        <image xlink:href=bus.svg x=0 y=0 width=200 height=200></image>
       </svg>
     </li>
 
@@ -355,7 +355,7 @@
     selector: '#sub-group'
   });
   inlineTest('Percentage Height and Width', $('#percentage-size'));
-  inlineTest('Background color', $('#background-color'), {backgroundColor: 'lightblue'});
+  inlineTest('Background color', $('#background-color'), {fill: 'lightblue'});
   inlineTest('Pan and Zoom', $('#pan-and-zoom'), {
     left: -50,
     top: -50,
